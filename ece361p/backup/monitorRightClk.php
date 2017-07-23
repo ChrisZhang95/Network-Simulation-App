@@ -34,7 +34,8 @@
 				$timeElapse = $monitor->getTimeElap();
 				$timeRem = $monitor->getTimeRem();
 				if($timeRem != 0){
-					echo "<h2>Monitor</h2><div> ";
+					echo "<div class='subMonitor'>";
+					echo "<h4 style='text-align: center;'>Monitor</h4><div class='monitorInfo'> ";
 					echo "<p ><strong>Cable: </strong><span id='mcable'>$cable2</span></p> ";
 					echo "<p ><strong>Protocol: </strong><span id='mprotocol'>$protocol</span></p> ";
 					echo "<p><strong>File Size: </strong><span id='mfilesize'>$filesize</span></p> ";
@@ -46,6 +47,7 @@
 					echo "<p><strong>Time Elapsed: </strong><span id='mtimeelapse'>$timeElapse</span></p> ";
 					echo "<p><strong>Time Remaining: </strong><span id='mtimerem'>$timeRem</span></p> ";
 					echo "</div> ";
+					echo "</div>";
 				}
 			}
 		}	

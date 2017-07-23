@@ -142,7 +142,8 @@ $(document).ready(function(){
                         cache: false,
                         success: function(result){
                             php = result[0];
-                            alert(result);
+                            var re = result.split(",");
+                            //alert(result);
                             var cableNum = result[6];
                             var cable1 = 'cable' + cableNum;
                             
@@ -198,10 +199,57 @@ $(document).ready(function(){
                             else if (php == 3){
                                 //alert ('3');
                                 $('#dialog').dialog('destroy');
+                                var cable1 = re[1];
+                                var cable2 = re[2];
+                                var cable3 = re[3];
+                                var dataString6 = 'cable1='+ cable1 + '&cable2=' + cable2 + '&cable3=' + cable3;
+                                $.ajax({
+                                    type: "POST",
+                                    url: "monitorAjax3.php",
+                                    data: dataString6,
+                                    cache: false,
+                                    success: function(result){
+                                        //alert(result);
+                                        //$('#monitor').html(result);
+                                        var r = result.split(",");
+                                        var r1 = r[0];
+                                        var r2 = r[1];
+                                        var r3 = r[2];
+                                        newround = true;
+                                        startTimer(cable1, r1);
+                                        startTimer(cable2, r2);
+                                        startTimer(cable3, r3);
+                                    }
+                                })
                             }
                             else if (php ==4){
                                 //alert('4');
                                 $('#dialog').dialog('destroy');
+                                var cable1 = re[1];
+                                var cable2 = re[2];
+                                var cable3 = re[3];
+                                var cable4 = re[4];
+                                var dataString7 = 'cable1='+ cable1 + '&cable2=' + cable2 + '&cable3=' + cable3 + '&cable4=' + cable4;
+                                $.ajax({
+                                    type: "POST",
+                                    url: "monitorAjax4.php",
+                                    data: dataString7,
+                                    cache: false,
+                                    success: function(result){
+                                        //alert(result);
+                                        //$('#monitor').html(result);
+                                        var r = result.split(",");
+                                        var r1 = r[0];
+                                        var r2 = r[1];
+                                        var r3 = r[2];
+                                        var r4 = r[3];
+                                        newround = true;
+                                        startTimer(cable1, r1);
+                                        startTimer(cable2, r2);
+                                        startTimer(cable3, r3);
+                                        startTimer(cable4, r4);
+                                    }
+                                })
                             }
                             else {
                                 alert('Please make sure the two computers are connected');
@@ -218,8 +266,8 @@ $(document).ready(function(){
     }
     var interVal = [];
     function startTimer($cable, $r){
-        if($cable == 'cable2')
-            //alert($r);
+        //if($cable == 'cable2')
+            //alert($r + "....");
         var finished = false;
         //alert('startTimer');
         var speed = $('#speed').val();

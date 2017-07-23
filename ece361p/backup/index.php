@@ -95,7 +95,7 @@ $monitor = array();
 
 </section>
 <section id="monitor">
-	<h2>Monitor</h2>
+	<h4 style='text-align: center;'>Monitor</h4>
 
 </section>
 <section style="display: none;" id="php">

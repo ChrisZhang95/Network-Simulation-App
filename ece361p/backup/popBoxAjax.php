@@ -73,10 +73,10 @@
 						$comps3 = $tcabs[$k]->getComputers();
 						if($comps3[0] == $switch2 && $comps3[1] == $dest2 || $comps3[1] == $switch2 && $comps3[0] == $dest2){
 							$myPhpValue = 3;
-							echo $myPhpValue;
-							echo $tcabs[$i]->getName();
-							echo $tcabs[$j]->getName();
-							echo $tcabs[$k]->getName();
+							echo $myPhpValue.",";
+							echo $tcabs[$i]->getName().",";
+							echo $tcabs[$j]->getName().",";
+							echo $tcabs[$k]->getName().",";
 							return;
 						}
 					}
@@ -91,10 +91,10 @@
 								$comps4 = $tcabs[$l]->getComputers();
 								if($comps4[0] == $switch3 && $comps4[1] == $dest2 || $comps4[1] == $switch3 && $comps4[0] ==$dest2){
 									$myPhpValue = 4;
-									echo $myPhpValue;
-									echo $tcabs[$i]->getName();
-									echo $tcabs[$j]->getName();
-									echo $tcabs[$k]->getName();
+									echo $myPhpValue.",";
+									echo $tcabs[$i]->getName().",";
+									echo $tcabs[$j]->getName().",";
+									echo $tcabs[$k]->getName().",";
 									echo $tcabs[$l]->getName();
 									return;
 								}
