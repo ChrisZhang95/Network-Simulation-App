@@ -16,6 +16,7 @@
 			$myPhpValue = 1;
 			echo $myPhpValue;
 			echo $tcabs[$i]->getName();
+			echo $source2;
 			return;
 		}
 		//check connection between computers connecting to the same switch
@@ -42,6 +43,7 @@
 							echo $myPhpValue;
 							echo $tcabs[$i]->getName();
 							echo $tcabs[$j]->getName();
+							echo $source2;
 							return;
 						}
 					}
@@ -77,6 +79,7 @@
 							echo $tcabs[$i]->getName().",";
 							echo $tcabs[$j]->getName().",";
 							echo $tcabs[$k]->getName().",";
+							echo $source2.",";
 							return;
 						}
 					}
@@ -95,7 +98,8 @@
 									echo $tcabs[$i]->getName().",";
 									echo $tcabs[$j]->getName().",";
 									echo $tcabs[$k]->getName().",";
-									echo $tcabs[$l]->getName();
+									echo $tcabs[$l]->getName().",";
+									echo $source2.",";
 									return;
 								}
 							}

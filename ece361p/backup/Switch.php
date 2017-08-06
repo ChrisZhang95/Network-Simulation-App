@@ -18,7 +18,13 @@
 		
 		
 		public function getArray(){
-			print_r($this->array);
+			foreach($this->array as $key){
+				echo "Port: ";
+				if($key == 'null')
+					echo "Unplugged"."\n";
+				else
+					echo $key."\n";
+			}
 		}
 		public function setArray($string){
 			if (!in_array($string, $this->array) && $string != 'null') {

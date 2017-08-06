@@ -6,6 +6,7 @@ class Computer {
 	private $hostName;
 	private $application = array();
 	private $cable = 'null';
+	private $cableArr = array();
 	public function __construct($IP, $hostname){
 		//$this->userName = $name;
 		$this->IPaddress = $IP;
@@ -42,7 +43,7 @@ class Computer {
 			foreach($this->application as $key) {
 			  echo $key." ";
 			}
-};
+		};
 	}
 	public function setApp($string){
 		if (!in_array($string, $this->application)) {
@@ -55,6 +56,35 @@ class Computer {
    		    unset($this->application[$key]);
         }
    	}
+   	public function getApps(){
+   		return $this->application;
+   	}
+
+
+	public function getCableArr(){
+		if(!$this->cableArr)
+			echo "null";
+		else {
+			foreach($this->cableArr as $key) {
+			  echo $key." ";
+			}
+		};
+	}
+	public function setCableArr($string){
+		if (!in_array($string, $this->cableArr)) {
+		    array_push($this->cableArr,$string);
+		}
+	}
+	public function deleteCableArr($string){
+		//	array_splice($this->array, $string, 1);
+        if (($key = array_search($string, $this->cableArr)) !== false) {
+   		    unset($this->cableArr[$key]);
+        }
+   	}
+   	public function getCablesArr(){
+   		return $this->cableArr;
+   	}
+
 }
 
 ?>

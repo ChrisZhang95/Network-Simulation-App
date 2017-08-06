@@ -11,18 +11,37 @@
 		private $frameSent;
 		private $timeElapse;
 		private $timeRem;
+		private $source;
+		private $des;
+		private $app;
 
-		public function __construct($name){
+		public function __construct($name, $source, $des, $app){
 			$this->name = $name;
 			$this->protocol = 'UDP';
-			$this->fileSize = '100MB';
-			$this->numPackets = 16002;
-			$this->packetsRem = 16002;
-			$this->packetsSent = 0;
-			$this->frameRem = 704088;
-			$this->frameSent = 0;
-			$this->timeElapse = 0;
-			$this->timeRem = 8;
+			if($app == 'app1'){
+				$this->fileSize = '1GB';
+				$this->numPackets = 15261;
+				$this->packetsRem = 15261;
+				$this->packetsSent = 0;
+				$this->frameRem = 671484;
+				$this->frameSent = 0;
+				$this->timeElapse = 0;
+				$this->timeRem = 8;
+			}
+			else {
+				$this->fileSize = '10GB';
+				$this->numPackets = 152607;
+				$this->packetsRem = 152607;
+				$this->packetsSent = 0;
+				$this->frameRem = 6714708;
+				$this->frameSent = 0;
+				$this->timeElapse = 0;
+				$this->timeRem = 75;
+			}
+			
+			$this->source = $source;
+			$this->des = $des;
+			$this->app = $app;
 		}
 		public function setName($name){
 			$this->name = $name;
@@ -85,7 +104,15 @@
 		public function setTimeRem($time){
 			$this->timeRem = $time;
 		}
-
+		public function getSource(){
+			return $this->source;
+		}
+		public function getDes(){
+			return $this->des;
+		}
+		public function getApp(){
+			return $this->app;
+		}
 
 		public function display(){
 			echo "File size: $fileSize";

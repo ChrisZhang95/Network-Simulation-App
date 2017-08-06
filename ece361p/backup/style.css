@@ -1,10 +1,49 @@
 h1{
  color:#669999;
     font: bold 40px/50px sans-serif;
+    display: inline-block;
+}
+h2{
+    color:#669999;
+    display: inline-block;
+}
+h4{
+    text-align: center;
 }
 div#pagetitle{
     color:#99c2ff;
     font-size: 4vw;
+}
+.login-form{
+    width: 20em; 
+    height: 8em; 
+    background-color: #ff8533; 
+    /*float: left;*/
+    margin: auto;
+    margin-top: 15%;
+    /*margin-top: 15em; 
+    margin-left: 40%; 
+    text-align: right;*/
+}
+.login-form div{
+    padding-top: 2em;
+    text-align: center;
+    margin: auto;
+}
+
+#userlist{
+    border-style: solid;
+    background-color: black;
+}
+#userlist tr{
+    border-style: solid;
+    border-color: yellow;
+}
+#userlist tr th{
+    color: black;
+    background-color: white;
+    border-style: solid;
+    border-color: white;
 }
 nav ul {
     background: white;
@@ -143,15 +182,16 @@ section{
     right: 10px;*/
     text-align: left;
     box-sizing:border-box;
-    line-height: 1px;
+    
 }
 .subMonitor{
     border-style: solid;
     border-color: #99c2ff;
-    height: 24.3%;
+    height: 32.6%;
+    line-height: 1px;
 }
 .monitorInfo{
-    font-size: 12px;
+    font-size: 0.8em;
 }
 h2{
     font: bold 30px/50px sans-serif;
@@ -252,3 +292,52 @@ body{
     position: relative;
     background-color: #ff8533;
 }
+
+#app_info{
+    width: 100px;
+    float: right;
+    display: flex;
+    flex-flow:column wrap;
+    margin-top: 5px;
+    position: absolute;
+    top: 14em;
+}
+.app-div{
+    background-color: #d8abcb;
+    color: #fff;
+    border-radius: 1px;
+    text-align: left;
+    box-sizing: border-box;
+    text-align: center;
+    margin: 1px;
+
+}
+
+.custom-menu {
+    list-style-type: none;
+    display: none;
+    z-index: 1000;
+    position: absolute;
+    overflow: hidden;
+   
+    font-family: sans-serif;
+/*    background: black;
+*/   
+    color: #333;
+    border-radius: 5px;
+    text-align: left;
+}
+
+.custom-menu li {
+     background: #FFF;
+    border: 1px solid #CCC;
+    left: 100px;
+    text-decoration: none;
+    /*padding: 8px 12px;*/
+    cursor: pointer;
+}
+
+.custom-menu li:hover {
+    background-color: #DEF;
+}
+

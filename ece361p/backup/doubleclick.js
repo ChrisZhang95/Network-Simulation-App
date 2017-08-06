@@ -62,6 +62,25 @@ $(document).ready(function(){
 		return false;
 	});
 
+	$(document).on('dblclick','.app-div',function(){
+		var appid = $(this).html();
+		var dataString = 'appid='+ appid;
+		$.ajax({
+
+			type: "POST",
+			//url: "appAjax.php",
+			url: "appAjaxClick.php",
+			data: dataString,
+			cache: false,
+			success: function(result){
+				alert(result);
+			}
+		});
+		
+		return false;
+
+	});
+
 
 
 });

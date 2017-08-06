@@ -42,6 +42,68 @@ $(document).on('contextmenu', '.computer', function(e){
 	return false;
 });
 
+var usernameOri;
+$(document).on('contextmenu', '.trow', function(e){
 
+
+ 	// $(this).attr('id', username);
+ 	usernameOri = $(this).attr('id');
+	 $(".custom-menu").finish().toggle(100).
+    
+    // In the right position (the mouse)
+    css({
+        top: event.pageY + "px",
+        left: event.pageX - 30 + "px"
+    });
+    
+	return false;
+});
+
+$(document).bind("mousedown", function (e) {
+    
+    // If the clicked element is not the menu
+    if (!$(e.target).parents(".custom-menu").length > 0) {
+        
+        // Hide it
+        $(".custom-menu").hide(100);
+    }
+});
+
+$('#moduser').click(function(){
+		$(".custom-menu").hide(100);
+        $('#modUserDialog').dialog();
+        $('#moddsubuser').click(function(){
+            // var username = $('#usernamemod').val();
+            //alert(username);
+            var password = $('#passwordmod').val();
+            var repassword = $('#repasswordmod').val();
+            var type = $('#typemod').val();
+            var op = "mod";
+            var dataString9 = 'password1=' + password + '&repassword1=' + repassword + '&type1=' + type + "&op=" + op +"&ori=" + usernameOri;
+            $.ajax({
+                type: "POST",
+                url: "userManagement.php",
+                data: dataString9,
+                cache: false,
+                success: function(result){
+                    // alert(result);
+                    var r = result[0];
+                    // //alert(r);
+                    if (r == "0"){
+                    	location.reload();
+                        $('#modUserDialog').dialog('destroy');
+                    } 
+                    else if (r == "1")
+                        alert("Please make sure to re-type the password correctly");
+                    else if (r == "2")
+                        alert("Please choose the right type of user you would like to add");
+                    else if (r == "4"){
+                    	$('#modUserDialog').dialog('destroy');
+                    }
+                }
+            });
+        });
+        
+    });
 
 });

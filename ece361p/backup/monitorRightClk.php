@@ -9,20 +9,26 @@
 		if(array_key_exists($cable2, $_SESSION))
 			$monitors = $_SESSION[$cable2];
 		else{
-			echo "<h2>This cable doesn't have a monitor</h2>";
+			echo "<h4 ><strong>Cable: </strong><span id='mcable'>$cable2</span></h4> ";
+			echo "<h5 style='text-align: center;'>There is no traffic passing through the cable</h5>";
 			return;
 		}
 		$t = unserialize($monitors);
+		$empty = true;
 		//var_dump($t);
 		//$index = -1;
 		if(sizeof($t) == 0) {
-			echo "<h2>This cable isn't running</h2>";
+			echo "<h4 ><strong>Cable: </strong><span id='mcable'>$cable2</span></h4> ";
+			echo "<h5 style='text-align: center;'>There is no traffic passing through the cable</h5>";
 		}
 		else{
 			for($i = 0; $i < sizeof($t); $i++){
 
 				$monitor = $t[$i];
 				//echo $monitor->getName();
+				$source = $monitor->getSource();
+				$des = $monitor->getDes();
+				$app = $monitor->getApp();
 				$protocol = $monitor->getProtocol();
 				$filesize = $monitor->getFileSize();
 				$numPackets = $monitor->getnumPacket();
@@ -34,9 +40,13 @@
 				$timeElapse = $monitor->getTimeElap();
 				$timeRem = $monitor->getTimeRem();
 				if($timeRem != 0){
+					$empty = false;
 					echo "<div class='subMonitor'>";
 					echo "<h4 style='text-align: center;'>Monitor</h4><div class='monitorInfo'> ";
 					echo "<p ><strong>Cable: </strong><span id='mcable'>$cable2</span></p> ";
+					echo "<p ><strong>Source: </strong><span>$source</span></p> ";
+					echo "<p ><strong>Destination: </strong><span>$des</span></p> ";
+					echo "<p ><strong>App: </strong><span >$app</span></p> ";
 					echo "<p ><strong>Protocol: </strong><span id='mprotocol'>$protocol</span></p> ";
 					echo "<p><strong>File Size: </strong><span id='mfilesize'>$filesize</span></p> ";
 					echo "<p><strong># of UDP Packets: </strong ><span id='mnumpacket'>$numPackets</span></p> ";
@@ -51,6 +61,10 @@
 				}
 			}
 		}	
+		if($empty == true){
+			echo "<h4 ><strong>Cable: </strong><span id='mcable'>$cable2</span></h4> ";
+			echo "<h5 style='text-align: center;'>There is no traffic passing through the cable</h5>";
+		}
 		//if($index!=-1){
 			// $monitor = $t[$index];
 			// //echo $monitor->getName();

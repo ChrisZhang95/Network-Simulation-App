@@ -51,9 +51,9 @@ if($type == 'computer'){
 		echo "IP Address: '".$ip."'\n";
 		//.$app."'\n";
 		echo "Cable: '".$cable."'\n";
-		echo "Application: '";
-		$apps = $t[$num-1]->getApp();
-		echo "'\n";
+		// echo "Application: '";
+		// $apps = $t[$num-1]->getApp();
+		// echo "'\n";
 	}
 	else{
 		echo "Please configure computer first";
@@ -78,10 +78,14 @@ if($type == 'cable'){
 		$host = $t[$num-1]->getType();
 		$app = $t[$num-1]->getComputers();
 
+		
 		echo "Name: '".$user."'\n";
 		echo "Socket: '".$ip."'\n";
 		echo "Type: '".$host."'\n";
 		echo "Computers:  ".$app[0]." & ".$app[1];
+		echo "\n";
+		echo "Apps: ";
+		$application = $t[$num-1]->getArray();
 	}
 	else{
 		echo "Please configure cable first";

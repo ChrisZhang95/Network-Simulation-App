@@ -5,24 +5,25 @@ $id=$_POST['id'];
 $appid=$_POST['appid'];
 //app name
 $appname=$_POST['appname'];
-$compIndex = $id[8];
+$compIndex = $id[8]-1;
 require 'Computer.php';
 session_start();
 //
 $temp = $_SESSION['computers'];
 $t = unserialize($temp);
-$t[$compIndex-1]->setAPP($appid);
+
+if(empty($t[$compIndex])){
+	$com = new Computer($id,$id);
+	$com->setApp($appid);
+	$t[$compIndex]=$com;
+}else{
+	$t[$compIndex]->setApp($appid);
+}
+
 $_SESSION['computers'] = serialize($t);
 
 $temp = $_SESSION['computers'];
 $t = unserialize($temp);
-//var_dump($t);
-//$_SESSION['computers'][$id][$appid] = $appname;
-// $_SESSION[$id][$appid] = $appname;
+var_dump($t);
 
-// if(empty($id)&&empty($appid)&&empty($appname)){
-// 	echo 1;
-// }else{
-// 	echo 0;
-// }
 ?>

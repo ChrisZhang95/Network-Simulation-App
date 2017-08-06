@@ -1,4 +1,127 @@
 $(document).ready(function(){
+    function isEmpty(obj) {
+        for(var key in obj) {
+            if(obj.hasOwnProperty(key))
+                return false;
+        }
+        return true;
+    }
+
+   $('#changePW').click(function(){
+
+        $('#changePWDialog').dialog();
+        $('#changesubuser').click(function(){
+            //alert(username);
+            var username = $('#user1').html();
+            // alert(username);
+            var curpassword = $('#currentPW').val();
+
+            var newpassword = $('#newPW1').val();
+            var repassword = $('#rechangePW').val();
+            var op = "change";
+            // alert(username);
+            // alert(curpassword);
+            // alert(newpassword);
+            // alert(repassword);
+            var dataString11 = 'username=' + username + '&curpassword='+ curpassword + '&newpassword=' + newpassword + '&repassword=' + repassword + "&op=" + op;
+            //alert(dataString11)
+            $.ajax({
+                type: "POST",
+                url: "userManagement.php",
+                data: dataString11,
+                cache: false,
+                success: function(result){
+                    var r = result[0];
+                    //alert(result);
+                    if (r == "0"){
+                        $('#changePWDialog').dialog('destroy');
+                        alert("Password has been changed");
+                        location.reload();
+                    }
+                    else if (r == "1")
+                        alert("Please enter the correct password");
+                    else if (r == "2")
+                        alert("Please make sure to re-type the password correctly");
+
+                }
+            });
+        });
+        
+    });
+
+    $('#adduser').click(function(){
+        $('#addUserDialog').dialog();
+        $('#submituser').click(function(){
+            var username = $('#usernameadd').val();
+            //alert(username);
+            var password = $('#passwordadd').val();
+            var repassword = $('#repasswordadd').val();
+            var type = $('#typeadd').val();
+            if(isEmpty(type))
+                type = "student";
+            var op = "add";
+            var dataString9 = 'username1='+ username + '&password1=' + password + '&repassword1=' + repassword + '&type1=' + type + "&op=" + op;
+            $.ajax({
+                type: "POST",
+                url: "userManagement.php",
+                data: dataString9,
+                cache: false,
+                success: function(result){
+                    var r = result[0];
+                    //alert(r);
+                    if (r == "0")
+                        alert("Username already exists");
+                    else if (r == "1")
+                        alert("Please make sure to re-type the password correctly");
+                    else if (r == "2")
+                        alert("Please choose the right type of user you would like to add");
+                    else if (r == "3"){
+                        //alert("success");
+                        $('#addUserDialog').dialog('destroy');
+                        location.reload(true);
+                        
+                    }
+                }
+            });
+        });
+        
+    });
+
+    $('.deluser').click(function(){
+        $('#delUserDialog').dialog();
+        $('#deleteuser').click(function(){
+            $('#delUserDialog').dialog('destroy');
+            var username = $('#usernamedel').val();
+            var password = $('#passworddel').val();
+            var op = "delete";
+            var dataString10 = 'username1='+ username + '&password1=' + password + "&op=" + op;
+            $.ajax({
+                type: "POST",
+                url: "userManagement.php",
+                data: dataString10,
+                cache: false,
+                success: function(result){
+                    //alert(result);
+                    var r = result[0];
+                    //alert(r);
+                    if (r == "0")
+                        alert("Please enter the correct password");
+                    else if (r == "1"){
+                        //alert("success");
+                        location.reload(true);
+                        $('#delUserDialog').dialog('destroy');
+
+                        
+                    }
+                    else if (r == "2")
+                        alert("Please enter a username that exists");
+                }
+            });
+        });
+    });
+
+
+
     $('#showapps').click(function(e){
               // $(".dropdown").next().css('visibility','hidden');
                //$('#show-apps').fadeOut(80);
@@ -10,10 +133,10 @@ $(document).ready(function(){
 
     //single click to spawn items
     $('#computerNav').click(function(){
-        var combine = $(' <img src="pics/computer.jpg" alt="myimage" class="computer" class="item" style="width: 10%; opacity: 0.5; z-index: 1;">');
-        combine.draggable();
+        var compNum = $('.computer').length + 1;
+        var combine = $(' <span><img src="pics/computer.jpg" alt="myimage" class="computer" class="item" style="width: 10%; opacity: 0.5; z-index: 1;">'+compNum+'</span>');
         $('#playground').append(combine);
-
+        combine.draggable({ containment: "parent" });
         $('.computer').each(function(index){
             $(this).attr('id', 'computer' + (index+1));
         });        
@@ -44,8 +167,8 @@ $(document).ready(function(){
 
     $('#cableNav').click(function(){
         var img1 = $('<img src="pics/cable.jpg" alt="myimage" class="cable"  style="width:15%; z-index: 0; opacity: 0.5;">');
-        img1.draggable();
         $('#playground').append(img1);
+        img1.draggable({ containment: "parent" });
         $('.cable').each(function(index){
             $(this).attr('id', 'cable' + (index+1));
         });
@@ -69,8 +192,8 @@ $(document).ready(function(){
     $('#switchNav').click(function(){
         //var img = $('<img src="pics/switch.jpg" alt="switch" class="switch"  style="width: 10%; z-index: 0; margin-left:5%; margin-top:3%; opacity: 0.5;">')
         var img = $('<div class=switch class="item" style="width: 9em; height: 20em; background-color: black;"><p>Switch</p></div>')
-        img.draggable();
         $('#playground').append(img);
+        img.draggable({ containment: "parent"});
         $('.switch').each(function(index){
             $(this).attr('id', 'switch' + (index+1));
         });
@@ -106,9 +229,21 @@ $(document).ready(function(){
     $('#continue').click(continueTimer);
 
     function configureComps(){
+         
+         
         $( "#dialog" ).dialog();
-
         $('#popsubmit').click(function(){
+            // alert("popsubmit is called");
+            // var num = $('.aiya').length;
+            // alert(num);
+            var app;
+            $('.subject-list').each(function(index){
+                if($(this).is(":checked")){
+                    app = $(this).val();
+                }
+            }); 
+
+            
             var source = false;
             var des = false;
             var sourceName = 'computer'+$('#sourcename').val();
@@ -146,7 +281,10 @@ $(document).ready(function(){
                             //alert(result);
                             var cableNum = result[6];
                             var cable1 = 'cable' + cableNum;
-                            
+                            var sourceNum1 = result[15];
+                            var sourceNum2 = result[21];
+                            //directly connected 
+                            var source3 = 'computer' + sourceNum1;
                             //var start = $('#myPhpValue').val();
                             //alert(start);
                             if(php == 1){
@@ -154,7 +292,8 @@ $(document).ready(function(){
                                 //startTimer();
                                 $('#dialog').dialog('destroy');
                                 type = "start";
-                                var dataString1 = 'cable1='+ cable1 + '&type1=' + type;
+                                var dataString1 = 'cable1='+ cable1 + '&type1=' + type  + '&source1=' + sourceName + '&des1=' + desName + '&app1=' + app;
+                                 var dataString2 = 'cable1='+ cable1 +'&source3='+ source3 + '&app1=' + app;
                                 $.ajax({
                                     type: "POST",
                                     url: "monitorAjax.php",
@@ -165,7 +304,16 @@ $(document).ready(function(){
                                         //alert(result);
                                         //$('#monitor').html(result);
                                         newround = true;
-                                        startTimer(cable1, r);
+                                        startTimer(cable1, r, app);
+                                    }
+                                })
+                                $.ajax({
+                                    type: "POST",
+                                    url: "appajax1.php",
+                                    data: dataString2,
+                                    cache: false,
+                                    success: function(result){
+                                        //alert(result);
                                     }
                                 })
                             }
@@ -175,9 +323,11 @@ $(document).ready(function(){
                                 var cable1 = 'cable' + cableNum1;
                                 var cableNum2 = result[12];
                                 var cable2 = 'cable' + cableNum2;
+                                var source4 = 'computer' + sourceNum2;
                                 //alert(cable1 + "  " + cable2);
                                 type2 = 'start2';
-                                var dataString5 = 'cable1='+ cable1 + '&cable2=' + cable2 + '&type1=' + type2;
+                                var dataString5 = 'cable1='+ cable1 + '&cable2=' + cable2 + '&type1=' + type2 + '&source1=' + sourceName + '&des1=' + desName + '&app1=' + app;
+                                var dataString6 = 'cable1='+ cable1 + '&cable2=' + cable2 + '&source4='+ source4 + '&app1=' + app;
                                 $.ajax({
                                     type: "POST",
                                     url: "monitorAjax2.php",
@@ -190,8 +340,17 @@ $(document).ready(function(){
                                         var r1 = r[0];
                                         var r2 = r[1];
                                         newround = true;
-                                        startTimer(cable1, r1);
-                                        startTimer(cable2, r2);
+                                        startTimer(cable1, r1, app);
+                                        startTimer(cable2, r2, app);
+                                    }
+                                })
+                                $.ajax({
+                                    type: "POST",
+                                    url: "appajax2.php",
+                                    data: dataString6,
+                                    cache: false,
+                                    success: function(result){
+                                        
                                     }
                                 })
 
@@ -202,7 +361,9 @@ $(document).ready(function(){
                                 var cable1 = re[1];
                                 var cable2 = re[2];
                                 var cable3 = re[3];
-                                var dataString6 = 'cable1='+ cable1 + '&cable2=' + cable2 + '&cable3=' + cable3;
+                                var sourceNum3 = re[4];
+                                var dataString6 = 'cable1='+ cable1 + '&cable2=' + cable2 + '&cable3=' + cable3 + '&source1=' + sourceName + '&des1=' + desName + '&app1=' + app;
+                                var dataString7 = 'cable1='+ cable1 + '&cable2=' + cable2 + '&cable3=' + cable3 + '&source5='+ sourceNum3 + '&app1=' + app;
                                 $.ajax({
                                     type: "POST",
                                     url: "monitorAjax3.php",
@@ -216,9 +377,18 @@ $(document).ready(function(){
                                         var r2 = r[1];
                                         var r3 = r[2];
                                         newround = true;
-                                        startTimer(cable1, r1);
-                                        startTimer(cable2, r2);
-                                        startTimer(cable3, r3);
+                                        startTimer(cable1, r1, app);
+                                        startTimer(cable2, r2, app);
+                                        startTimer(cable3, r3, app);
+                                    }
+                                })
+                                $.ajax({
+                                    type: "POST",
+                                    url: "appajax3.php",
+                                    data: dataString7,
+                                    cache: false,
+                                    success: function(result){
+
                                     }
                                 })
                             }
@@ -229,7 +399,18 @@ $(document).ready(function(){
                                 var cable2 = re[2];
                                 var cable3 = re[3];
                                 var cable4 = re[4];
-                                var dataString7 = 'cable1='+ cable1 + '&cable2=' + cable2 + '&cable3=' + cable3 + '&cable4=' + cable4;
+								var sourceNum4 = re[5];
+                                var dataString7 = 'cable1='+ cable1 + '&cable2=' + cable2 + '&cable3=' + cable3 + '&cable4=' + cable4 + '&source1=' + sourceName + '&des1=' + desName + '&app1=' + app;
+                                var dataString8 = 'cable1='+ cable1 + '&cable2=' + cable2 + '&cable3=' + cable3 + '&cable4=' + cable4 + '&source6='+ sourceNum4 + '&app1=' + app; 
+                                $.ajax({
+                                    type: "POST",
+                                    url: "appajax4.php",
+                                    data: dataString8,
+                                    cache: false,
+                                    success: function(result){
+                                
+                                    }
+                                })
                                 $.ajax({
                                     type: "POST",
                                     url: "monitorAjax4.php",
@@ -244,12 +425,21 @@ $(document).ready(function(){
                                         var r3 = r[2];
                                         var r4 = r[3];
                                         newround = true;
-                                        startTimer(cable1, r1);
-                                        startTimer(cable2, r2);
-                                        startTimer(cable3, r3);
-                                        startTimer(cable4, r4);
+                                        startTimer(cable1, r1, app);
+                                        startTimer(cable2, r2, app);
+                                        startTimer(cable3, r3, app);
+                                        startTimer(cable4, r4, app);
                                     }
                                 })
+                                // $.ajax({
+                                //     type: "POST",
+                                //     url: "appajax4.php",
+                                //     data: dataString8,
+                                //     cache: false,
+                                //     success: function(result){
+
+                                //     }
+                                // })
                             }
                             else {
                                 alert('Please make sure the two computers are connected');
@@ -265,7 +455,7 @@ $(document).ready(function(){
         });
     }
     var interVal = [];
-    function startTimer($cable, $r){
+    function startTimer($cable, $r, $app){
         //if($cable == 'cable2')
             //alert($r + "....");
         var finished = false;
@@ -279,48 +469,86 @@ $(document).ready(function(){
         }
         
         go = true;
+        if($app == 'app1'){
+            var numframe = 671484;
+            var numpacket = 15261;
+            if(newround == true){
+                var timeRem = 8;
+                var timeRemFixed = timeRem;
+                var timeElap = 0;
+                var packetRem = numpacket;
+                var packetSent = 0;
+                var frameRem = numframe;
+                var frameSent = 0;
+            }
+            else{
+                //alert('else');
+                var dataString4 = 'cable1='+ $cable + '&index=' + $r ;
+                $.ajax({
+                    type: "POST",
+                    url: "tempVarAjax.php",
+                    data: dataString4,
+                    cache: false,
+                    success: function(result){
+                        //alert(result);
+                        var r = result.split(",");
+                        //alert(r);
+                        timeRem = parseInt(r[0]);
+                        timeElap = parseInt(r[1]);
+                        packetRem = parseInt(r[2]);
+                        frameRem = parseInt(r[3]);
+                        packetSent = parseInt(r[4]);
+                        frameSent = parseInt(r[5]);
+                        timeRemFixed = 8;
+                        //alert(timeRem + timeElap);
+                    }
+                });
 
-        var numframe = 704088;
-        var numpacket = 16002;
-        if(newround == true){
-            var timeRem = 8;
-            var timeRemFixed = timeRem;
-            var timeElap = 0;
-            var packetRem = numpacket;
-            var packetSent = 0;
-            var frameRem = numframe;
-            var frameSent = 0;
+            }
         }
         else{
-            //alert('else');
-            var dataString4 = 'cable1='+ $cable + '&index=' + $r ;
-            $.ajax({
-                type: "POST",
-                url: "tempVarAjax.php",
-                data: dataString4,
-                cache: false,
-                success: function(result){
-                    //alert(result);
-                    var r = result.split(",");
-                    //alert(r);
-                    timeRem = parseInt(r[0]);
-                    timeElap = parseInt(r[1]);
-                    packetRem = parseInt(r[2]);
-                    frameRem = parseInt(r[3]);
-                    packetSent = parseInt(r[4]);
-                    frameSent = parseInt(r[5]);
-                    timeRemFixed = 8;
-                    //alert(timeRem + timeElap);
-                }
-            });
+            var numframe = 6714708;
+            var numpacket = 152607;
+            if(newround == true){
+                var timeRem = 75;
+                var timeRemFixed = timeRem;
+                var timeElap = 0;
+                var packetRem = numpacket;
+                var packetSent = 0;
+                var frameRem = numframe;
+                var frameSent = 0;
+            }
+            else{
+                //alert('else');
+                var dataString4 = 'cable1='+ $cable + '&index=' + $r ;
+                $.ajax({
+                    type: "POST",
+                    url: "tempVarAjax.php",
+                    data: dataString4,
+                    cache: false,
+                    success: function(result){
+                        //alert(result);
+                        var r = result.split(",");
+                        //alert(r);
+                        timeRem = parseInt(r[0]);
+                        timeElap = parseInt(r[1]);
+                        packetRem = parseInt(r[2]);
+                        frameRem = parseInt(r[3]);
+                        packetSent = parseInt(r[4]);
+                        frameSent = parseInt(r[5]);
+                        timeRemFixed = 8;
+                        //alert(timeRem + timeElap);
+                    }
+                });
 
+            }
         }
         newround = false;
         var num = $cable[5];
         intervalID = setInterval(function() {
 
-            if(!go)
-                return;
+                if(!go)
+                    return;
                 if(timeRem > 0){
                     timeRem = timeRem - 1;
                     if (timeRem < 0)
@@ -354,7 +582,7 @@ $(document).ready(function(){
                     });
                 }
                 else{
-                    
+                    //alert($cable + "time remain is 0");
                     packetRem = 0;
                     frameRem = 0;
                     packetSent = numpacket;
@@ -374,8 +602,10 @@ $(document).ready(function(){
                     newround = true;
                     //for (i = 0; i < interVal.length; i++) {
                         $num = $cable[5];
-                        clearInterval(interVal[0]);
-                        interVal.splice(0, 1 );
+                        // setTimeout(function(){
+                        // }, 10000000); 
+                        // clearInterval(interVal[0]);
+                        // interVal.splice(0, 1 );
                         //alert('Simulation at ' + $cable + ' is finished');
 
                     //}
@@ -389,29 +619,28 @@ $(document).ready(function(){
 
     function stopTimer(){
         go = false;
-        for (i = 0; i < interVal.length; i++) {
-            window.clearInterval(interVal[i]);
-        }
+        // for (i = 0; i < interVal.length; i++) {
+        //     window.clearInterval(interVal[i]);
+        // }
     }
 
     function continueTimer(){
-        $.ajax({
-            type: "POST",
-            url: "getCableAjax.php",
-            //data: dataString3,
-            cache: false,
-            success: function(result){
-                newround = false;
-                var r = result.split(",");
-                for(i = 0; i < r.length; i++){
-                    startTimer(r[i]);
-                }
-            }
-        });
+        go = true;
+        // $.ajax({
+        //     type: "POST",
+        //     url: "getCableAjax.php",
+        //     //data: dataString3,
+        //     cache: false,
+        //     success: function(result){
+        //         newround = false;
+        //         var r = result.split(",");
+        //         for(i = 0; i < r.length; i++){
+        //             startTimer(r[i]);
+        //         }
+        //     }
+        // });
         
     }
-
-
 
 
 
